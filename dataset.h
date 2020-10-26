@@ -3,13 +3,15 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
+using namespace std;
 
 
 class dataset
 {
     public:
-        vector<int> splitInput(string tempInput);
-        void visDataSet(vector<int> inputList);
+        vector<int> splitInput(char tempInput[]);
+        visDataSet(vector<int> inputList);
 
     protected:
 
