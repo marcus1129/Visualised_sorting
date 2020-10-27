@@ -42,31 +42,27 @@ vector<long int> dataset::bubbleSort(vector<long int> unsortedList){
     int var = 0;
     bool checker = false;
     bool bonk = true;
-    int counter = 0;
 
     //Runs the loop until no changes are made to the array
     while(bonk){
         //Loops through the array
-        for(int n = 0; n < unsortedList.size(); n++){
+        for(int n = 0; n+1 < unsortedList.size(); n++){
             //Checks if 1 element is larger than the next one
-            if(unsortedList[counter] > unsortedList[counter+1] && (counter+1) < unsortedList.size()){
+            if(unsortedList[n] > unsortedList[n+1]){
                 //Flips the elements
-                var = unsortedList[counter+1];
-                unsortedList[counter+1] = unsortedList[counter];
-                unsortedList[counter] = var;
+                var = unsortedList[n+1];
+                unsortedList[n+1] = unsortedList[n];
+                unsortedList[n] = var;
 
                 checker = true;
             }
-            else{
-                //When it reaches the end of the list it breaks
-                if(counter >= unsortedList.size()){
-                    break;
-                }
-                else{
-                    throw runtime_error("Runtime error: Bubble sort failed");
-                }
+            //If element 1 is smaller than or equal to element 2 it continues the loop
+            else if(unsortedList[n] <= unsortedList[n+1]){
+                continue;
             }
-            counter++;
+            else{
+                throw runtime_error("Runtime error: Bubble sort failed");
+            }
         }
         //If we haven't changed the list, it exits the loop
         if(!checker){
@@ -77,7 +73,7 @@ vector<long int> dataset::bubbleSort(vector<long int> unsortedList){
     return unsortedList;
 }
 
-dataset::visDataSet(vector<long int> inputList)
+dataset::visDataSet(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB)
 {
-
+    //cout << "renderPosL: " << renderPosL << endl;
 }

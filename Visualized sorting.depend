@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1603795900 source:c:\skole arbejde\sop\prog\visualised_sorting\main.cpp
+1603798898 source:c:\skole arbejde\sop\prog\visualised_sorting\main.cpp
 	<SFML/Graphics.hpp>
 	"dataset.h"
 	<cstring>
@@ -413,12 +413,13 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1603793835 c:\skole arbejde\sop\prog\visualised_sorting\dataset.h
+1603798779 c:\skole arbejde\sop\prog\visualised_sorting\dataset.h
+	<Windows.h>
 	<vector>
 	<string>
 	<iostream>
 
-1603796149 source:c:\skole arbejde\sop\prog\visualised_sorting\dataset.cpp
+1603798929 source:c:\skole arbejde\sop\prog\visualised_sorting\dataset.cpp
 	"dataset.h"
 	<bitset>
 

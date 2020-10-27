@@ -7,6 +7,7 @@ using namespace sf;
 
 RenderWindow window(VideoMode(800,600), "Visualized sorting"/*, Style::Fullscreen*/);
 Event event;
+WINDOWINFO wiInfo;
 vector<long int> inputList = {};
 string stringInput = "";
 vector<long int> sortedList = {};
@@ -35,21 +36,21 @@ int main()
                     //Splits the input in to individual indexes
                     inputList = obj.splitInput(input);
 
-                    /*for(int n = 0; n < inputList.size(); n++){
-                        cout << inputList[n] << endl;
-                    }*/
-
                     //Sorts the list according to the bubblesort algorithm
                     sortedList = obj.bubbleSort(inputList);
-
-                    /*for(int n = 0; n < sortedList.size(); n++){
+                    for(int n = 0; n < sortedList.size(); n++){
                         cout << sortedList[n] << endl;
-                    }*/
+                    }
+
+
+                    GetWindowInfo(window.getSystemHandle(), &wiInfo);
+                    /*cout << wiInfo.rcClient.right - wiInfo.rcClient.left << endl;
+                    cout << wiInfo.rcClient.bottom - wiInfo.rcClient.top << endl;*/
 
 
 
                     //Draws a rectangle for each data point
-                    obj.visDataSet(inputList);
+                    obj.visDataSet(sortedList, wiInfo.rcClient.left, wiInfo.rcClient.right, wiInfo.rcClient.top, wiInfo.rcClient.bottom);
                     window.clear();
                     //window.draw(rectangle);
                     window.display();
