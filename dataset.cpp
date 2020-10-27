@@ -1,5 +1,22 @@
 #include "dataset.h"
+#include <math.h>
 #include <bitset>
+
+dataset::dataset(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB, int spacingWidth, int elementWidth)
+{
+    //Calculates the area the program draws on
+    int PosL = floor(float(renderPosL)*1.2);
+    this->left = PosL;
+
+    int PosR = floor(float(renderPosR)*0.8);
+    this->right = PosR;
+
+    int PosT = floor(float(renderPosT)*1.2);
+    this->top = PosT;
+
+    int PosB = floor(float(renderPosB)*0.8);
+    this->bottom = PosB;
+}
 
 vector<long int> dataset::splitInput(char input[])
 {
@@ -73,7 +90,4 @@ vector<long int> dataset::bubbleSort(vector<long int> unsortedList){
     return unsortedList;
 }
 
-dataset::visDataSet(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB)
-{
-    //cout << "renderPosL: " << renderPosL << endl;
-}
+
