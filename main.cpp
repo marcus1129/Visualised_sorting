@@ -7,8 +7,9 @@ using namespace sf;
 
 RenderWindow window(VideoMode(800,600), "Visualized sorting"/*, Style::Fullscreen*/);
 Event event;
-vector<int> inputList = {};
-string stringInput = "26172 1283 19";
+vector<long int> inputList = {};
+string stringInput = "";
+vector<long int> sortedList = {};
 
 int main()
 {
@@ -19,9 +20,9 @@ int main()
                     window.close();
                 }
                 else{
-                    /*cout << "Please enter any amount of integer seperated by a space" << endl;
+                    cout << "Please enter any amount of integer seperated by a space" << endl;
                     //Get an input from the user
-                    getline(cin, stringInput);*/
+                    getline(cin, stringInput);
 
                     //Converts the input to a char
                     char input[stringInput.size()] = "";
@@ -34,9 +35,21 @@ int main()
                     //Splits the input in to individual indexes
                     inputList = obj.splitInput(input);
 
+                    /*for(int n = 0; n < inputList.size(); n++){
+                        cout << inputList[n] << endl;
+                    }*/
+
+                    //Sorts the list according to the bubblesort algorithm
+                    sortedList = obj.bubbleSort(inputList);
+
+                    /*for(int n = 0; n < sortedList.size(); n++){
+                        cout << sortedList[n] << endl;
+                    }*/
+
+
+
                     //Draws a rectangle for each data point
                     obj.visDataSet(inputList);
-
                     window.clear();
                     //window.draw(rectangle);
                     window.display();

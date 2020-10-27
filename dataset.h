@@ -10,8 +10,9 @@ using namespace std;
 class dataset
 {
     public:
-        vector<int> splitInput(char tempInput[]);
-        visDataSet(vector<int> inputList);
+        vector<long int> splitInput(char tempInput[]);
+        visDataSet(vector<long int> inputList);
+        vector<long int> bubbleSort(vector<long int> unsortedList);
 
     protected:
 
