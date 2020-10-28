@@ -11,10 +11,12 @@ using namespace std;
 class dataset
 {
     public:
+        dataset(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB, int spacingWidth, int elementWidth);
         vector<long int> splitInput(char tempInput[]);
         vector<long int> bubbleSort(vector<long int> unsortedList);
-        visDataSet(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB);
+        visDataSet(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB, int spacingWidth, int elementWidth);
 
+        int left, right, bottom, top = 0;
     protected:
 
     private:

@@ -12,6 +12,9 @@ vector<long int> inputList = {};
 string stringInput = "";
 vector<long int> sortedList = {};
 
+//The distance between data points, in pixels
+int spacingWidth = 5;
+
 int main()
 {
     try{
@@ -38,19 +41,21 @@ int main()
 
                     //Sorts the list according to the bubblesort algorithm
                     sortedList = obj.bubbleSort(inputList);
-                    for(int n = 0; n < sortedList.size(); n++){
-                        cout << sortedList[n] << endl;
-                    }
 
 
                     GetWindowInfo(window.getSystemHandle(), &wiInfo);
                     /*cout << wiInfo.rcClient.right - wiInfo.rcClient.left << endl;
                     cout << wiInfo.rcClient.bottom - wiInfo.rcClient.top << endl;*/
 
+                    //Calculates the drawable distance
+                    int difX = wiInfo.rcClient.right - wiInfo.rcClient.left;
+                    int difY = wiInfo.rcClient.bottom - wiInfo.rcClient.top;
 
+                    //Calculates the width of each data point
+                    elementWidth = (difX - sortedList.size()*spacingWidth)/sortedList.size();
 
                     //Draws a rectangle for each data point
-                    obj.visDataSet(sortedList, wiInfo.rcClient.left, wiInfo.rcClient.right, wiInfo.rcClient.top, wiInfo.rcClient.bottom);
+                    //obj.visDataSet(sortedList, wiInfo.rcClient.left, wiInfo.rcClient.right, wiInfo.rcClient.top, wiInfo.rcClient.bottom, spacingWidth, elementWidth);
                     window.clear();
                     //window.draw(rectangle);
                     window.display();
