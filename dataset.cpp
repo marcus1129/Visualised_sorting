@@ -2,20 +2,45 @@
 #include <math.h>
 #include <bitset>
 
-dataset::dataset(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB, int spacingWidth, int elementWidth)
+dataset::dataset(){
+
+}
+
+dataset::dataset(int x, int y, int width, int height, int PosB){
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
+    this->PosB = PosB;
+}
+
+dataset::newPoint(vector<long int> sortedList, int renderPosL, int renderPosR, int renderPosT, int renderPosB, int spacingWidth, vector<dataset*>& pointList)
 {
     //Calculates the area the program draws on
-    int PosL = floor(float(renderPosL)*1.2);
-    this->left = PosL;
-
-    int PosR = floor(float(renderPosR)*0.8);
-    this->right = PosR;
-
+    int PosL = floor(float(renderPosL)*1.1);
+    int PosR = floor(float(renderPosR)*0.9);
     int PosT = floor(float(renderPosT)*1.2);
-    this->top = PosT;
-
     int PosB = floor(float(renderPosB)*0.8);
-    this->bottom = PosB;
+
+    //Calculates the drawable distance
+    int difX = PosR - PosL;
+    int difY = PosB - PosT;
+
+    //Calculates the width of each data point
+    int elementWidth = (difX - sortedList.size()*spacingWidth)/sortedList.size();
+
+    int topPoint = sortedList[sortedList.size()-1];
+    int bottomPoint = sortedList[0];
+
+
+    for(int n = 0; n < sortedList.size(); n++){
+        //Calculates the x coordinates the first data point
+        int x = spacingWidth + elementWidth + ((spacingWidth + elementWidth)*n);
+        int y = PosB - (difY * (sortedList[n]/topPoint));
+        int height = floor(float(difY) * (float(sortedList[n])/float(topPoint)));
+        dataset *point = new dataset(x, y, elementWidth, height, PosB);
+        pointList.push_back(point);
+    }
 }
 
 vector<long int> dataset::splitInput(char input[])

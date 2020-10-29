@@ -8,8 +8,8 @@ using namespace sf;
 RenderWindow window(VideoMode(800,600), "Visualized sorting"/*, Style::Fullscreen*/);
 Event event;
 WINDOWINFO wiInfo;
+string stringInput = "2 332 551 22 4123 552 2483 273 213 42 33 521 23 2 543 283";
 vector<long int> inputList = {};
-string stringInput = "";
 vector<long int> sortedList = {};
 
 //The distance between data points, in pixels
@@ -24,9 +24,9 @@ int main()
                     window.close();
                 }
                 else{
-                    cout << "Please enter any amount of integer seperated by a space" << endl;
+                    /*cout << "Please enter any amount of integer seperated by a space" << endl;
                     //Get an input from the user
-                    getline(cin, stringInput);
+                    getline(cin, stringInput);*/
 
                     //Converts the input to a char
                     char input[stringInput.size()] = "";
@@ -34,30 +34,34 @@ int main()
                         input[i] = stringInput[i];
                     }
 
-                    dataset obj;
+                    dataset *obj = new dataset();
+
+                    //Creates a vector for the data points to be kept in
+                    vector<dataset*> points = {};
+
 
                     //Splits the input in to individual indexes
-                    inputList = obj.splitInput(input);
+                    inputList = obj->splitInput(input);
 
                     //Sorts the list according to the bubblesort algorithm
-                    sortedList = obj.bubbleSort(inputList);
+                    sortedList = obj->bubbleSort(inputList);
 
-
+                    //Gets the position of the window
                     GetWindowInfo(window.getSystemHandle(), &wiInfo);
-                    /*cout << wiInfo.rcClient.right - wiInfo.rcClient.left << endl;
-                    cout << wiInfo.rcClient.bottom - wiInfo.rcClient.top << endl;*/
-
-                    //Calculates the drawable distance
-                    int difX = wiInfo.rcClient.right - wiInfo.rcClient.left;
-                    int difY = wiInfo.rcClient.bottom - wiInfo.rcClient.top;
-
-                    //Calculates the width of each data point
-                    elementWidth = (difX - sortedList.size()*spacingWidth)/sortedList.size();
 
                     //Draws a rectangle for each data point
-                    //obj.visDataSet(sortedList, wiInfo.rcClient.left, wiInfo.rcClient.right, wiInfo.rcClient.top, wiInfo.rcClient.bottom, spacingWidth, elementWidth);
+                    for(int n = 0; n < sortedList.size(); n++){
+                        obj->newPoint(sortedList, wiInfo.rcClient.left, wiInfo.rcClient.right, wiInfo.rcClient.top, wiInfo.rcClient.bottom, spacingWidth, points);
+                    }
+
                     window.clear();
-                    //window.draw(rectangle);
+                    for(int n = 0; n < points.size(); n++){
+                        RectangleShape rectangle;
+                        rectangle.setSize(Vector2f(points[n]->width, points[n]->height));
+                        rectangle.setFillColor(Color::White);
+                        rectangle.setPosition(points[n]->x, points[n]->PosB - points[n]->height);
+                        window.draw(rectangle);
+                    }
                     window.display();
                 }
             }
