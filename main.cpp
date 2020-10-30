@@ -1,16 +1,13 @@
-#include <SFML/Graphics.hpp>
 #include "dataset.h"
 #include <cstring>
-
-using namespace sf;
 
 
 RenderWindow window(VideoMode(800,600), "Visualized sorting"/*, Style::Fullscreen*/);
 Event event;
-WINDOWINFO wiInfo;
-string stringInput = "2 332 551 22 4123 552 2483 273 213 42 33 521 23 2 543 283";
+string stringInput = "2 8 3 32 12 5 21 4";
 vector<long int> inputList = {};
 vector<long int> sortedList = {};
+
 
 //The distance between data points, in pixels
 int spacingWidth = 5;
@@ -40,32 +37,29 @@ int main()
                     vector<dataset*> points = {};
 
 
+                    vector<rectangleObj*> rectangleList = {};
+
+
                     //Splits the input in to individual indexes
                     inputList = obj->splitInput(input);
 
                     //Sorts the list according to the bubblesort algorithm
-                    sortedList = obj->bubbleSort(inputList);
+                    obj->setPoints(inputList, points, spacingWidth, window);
 
-                    //Gets the position of the window
-                    GetWindowInfo(window.getSystemHandle(), &wiInfo);
+                    RectangleShape rec;
 
                     //Draws a rectangle for each data point
-                    for(int n = 0; n < sortedList.size(); n++){
-                        obj->newPoint(sortedList, wiInfo.rcClient.left, wiInfo.rcClient.right, wiInfo.rcClient.top, wiInfo.rcClient.bottom, spacingWidth, points);
+                    for(int n = 0; n < points.size(); n++){
+                        rectangleObj *rect = new rectangleObj(points[n]->width, points[n]->height, Color::White, points[n]->x, points[n]->y);
+                        rectangleList.push_back(rect);
                     }
 
-                    window.clear();
-                    for(int n = 0; n < points.size(); n++){
-                        RectangleShape rectangle;
-                        rectangle.setSize(Vector2f(points[n]->width, points[n]->height));
-                        rectangle.setFillColor(Color::White);
-                        rectangle.setPosition(points[n]->x, points[n]->PosB - points[n]->height);
-                        window.draw(rectangle);
-                    }
-                    window.display();
+                    rectangleObj *obj1 = new rectangleObj();
+                    obj1->bubbleSort(rectangleList, window, rec);
                 }
             }
         }
+        return 0;
     }
 
     catch(exception& e){
