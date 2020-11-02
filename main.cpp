@@ -46,6 +46,7 @@ int main()
                     //Sorts the list according to the bubblesort algorithm
                     obj->setPoints(inputList, points, spacingWidth, window);
 
+                    //Creates a rectangle
                     RectangleShape rec;
 
                     //Draws a rectangle for each data point
@@ -54,6 +55,7 @@ int main()
                         rectangleList.push_back(rect);
                     }
 
+                    //Sorts the array
                     rectangleObj *obj1 = new rectangleObj();
                     obj1->bubbleSort(rectangleList, window, rec);
                 }

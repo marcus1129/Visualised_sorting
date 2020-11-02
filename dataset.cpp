@@ -127,30 +127,42 @@ rectangleObj::rectangleObj(int width, int height, Color color, int x, int y){
 }
 
 rectangleObj::bubbleSort(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec){
-    rectangleObj *var = new rectangleObj(0, 0, Color::White, 0, 0);
+    int var1 = 0;
+    int var2 = 0;
+
     bool checker = false;
     bool bonk = true;
     Clock clock;
 
     //Runs the loop until no changes are made to the array
     while(bonk){
-        //unsortedList[0]->color = Color::Red;
         //Loops through the array
         for(int n = 0; (n+1) < unsortedList.size(); n++){
+            //unsortedList[n]->color = Color::Red;
+            //unsortedList[n+1]->color = Color::Red;
+
+            //Draws the sorting in a window
             animate(unsortedList, window, rec);
+
+            //unsortedList[n]->color = Color::White;
+
+            //Half a second delay
             while(clock.getElapsedTime().asSeconds() < 0.5f){
 
             }
-            //unsortedList[n+1]->color = Color::Red;
+
+
             //Checks if 1 element is larger than the next one
             if(unsortedList[n]->height > unsortedList[n+1]->height){
                 //Flips the elements
+                var1 = unsortedList[n+1]->height;
+                var2 = unsortedList[n+1]->y;
 
-                var = unsortedList[n+1];
+                unsortedList[n+1]->height = unsortedList[n]->height;
+                unsortedList[n+1]->y = unsortedList[n]->y;
 
-                unsortedList[n+1] = unsortedList[n];
-
-                unsortedList[n] = var;
+                unsortedList[n]->height = var1;
+                unsortedList[n]->y = var2;
 
                 checker = true;
             }
@@ -162,7 +174,6 @@ rectangleObj::bubbleSort(vector<rectangleObj*>& unsortedList, RenderWindow& wind
             else{
                 throw runtime_error("Runtime error: Bubble sort failed");
             }
-            //unsortedList[n]->color = Color::White;
             clock.restart();
         }
         //If we haven't changed the list, it exits the loop
@@ -179,13 +190,16 @@ rectangleObj::rectangleObj(){
 }
 
 rectangleObj::animate(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec){
+    window.clear();
+
+    //Draws a square for each element
     for(int n = 0; n < unsortedList.size(); n++){
-        cout << unsortedList[n]->height << endl;;
+        //cout << "Height: " << unsortedList[n]->height << "\t" << "X: " << unsortedList[n]->x << "\t" << "Y: " << unsortedList[n]->y << endl;;
         rec.setPosition(unsortedList[n]->x, unsortedList[n]->y);
         rec.setSize(Vector2f(unsortedList[n]->width, unsortedList[n]->height));
         rec.setFillColor(unsortedList[n]->color);
         window.draw(rec);
-        window.display();
     }
-    cout << "\n" << "\n" << endl;
+    window.display();
+    //cout << "\n" << "\n" << endl;
 }
