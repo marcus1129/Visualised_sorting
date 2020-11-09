@@ -24,6 +24,9 @@ class dataset
         dataset();
         dataset(int x, int y, int width, int height);
         ~dataset();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         vector<long int> splitInput(char tempInput[]);
         vector<long int> bubbleSort(vector<long int> unsortedList);
@@ -41,6 +44,9 @@ class rectangleObj{
         Color color = Color::White;
         int width, height, x, y = 0;
         animate(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec, bool accessGate, bool looper);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

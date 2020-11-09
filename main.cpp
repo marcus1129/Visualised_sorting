@@ -12,6 +12,9 @@ WINDOWINFO wiInfo;
 =======
 string stringInput = "2 8 3 32 12 5 21 4";
 bool loop = true;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 vector<long int> inputList = {};
 string stringInput = "";
@@ -30,6 +33,9 @@ RectangleShape rec;
 int spacingWidth = 5;
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 int main()
 {
@@ -40,11 +46,15 @@ int main()
                     window.close();
                 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 else{
                     cout << "Please enter any amount of integer seperated by a space" << endl;
                     //Get an input from the user
                     getline(cin, stringInput);
 
+=======
+                else if(loop){
+>>>>>>> Stashed changes
 =======
                 else if(loop){
 >>>>>>> Stashed changes
@@ -69,6 +79,10 @@ int main()
                     //vector<rectangleObj*> rectangleList{};
 >>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+=======
+                    //vector<rectangleObj*> rectangleList{};
+>>>>>>> Stashed changes
 
                     GetWindowInfo(window.getSystemHandle(), &wiInfo);
                     /*cout << wiInfo.rcClient.right - wiInfo.rcClient.left << endl;
@@ -103,6 +117,9 @@ int main()
                         delete points[n];
                         delete rectangleList[n];
                     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 }
                 loop = false;
