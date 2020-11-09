@@ -19,9 +19,6 @@ dataset::~dataset(){
 
 }
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 vector<long int> dataset::splitInput(char input[])
 {
@@ -216,7 +213,6 @@ void bubbleSort(vector<rectangleObj*>& unsortedList, bool accessGate, bool loope
                 bonk = false;
             }
             checker = false;
-<<<<<<< Updated upstream
 >>>>>>> Stashed changes
         }
         accessGate = false;
@@ -229,11 +225,6 @@ dataset::visDataSet(vector<long int> sortedList, int renderPosL, int renderPosR,
 {
     //cout << "renderPosL: " << renderPosL << endl;
 =======
-=======
-        }
-        accessGate = false;
-    }
->>>>>>> Stashed changes
     //animate(unsortedList, window, rec);
 }
 
@@ -266,8 +257,5 @@ rectangleObj::animate(vector<rectangleObj*>& unsortedList, RenderWindow& window,
     }
     sorting.join();
     cout << "\n" << "\n" << endl;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 }
