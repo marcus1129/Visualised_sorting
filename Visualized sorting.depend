@@ -1,6 +1,10 @@
 # depslib dependency file v1.0
+<<<<<<< Updated upstream
 1603798898 source:c:\skole arbejde\sop\prog\visualised_sorting\main.cpp
 	<SFML/Graphics.hpp>
+=======
+1604485914 source:c:\skole arbejde\sop\prog\visualised_sorting\main.cpp
+>>>>>>> Stashed changes
 	"dataset.h"
 	<cstring>
 
@@ -413,13 +417,25 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
+<<<<<<< Updated upstream
 1603798779 c:\skole arbejde\sop\prog\visualised_sorting\dataset.h
+=======
+1604912208 c:\skole arbejde\sop\prog\visualised_sorting\dataset.h
+>>>>>>> Stashed changes
 	<Windows.h>
 	<vector>
 	<string>
 	<iostream>
+<<<<<<< Updated upstream
 
 1603798929 source:c:\skole arbejde\sop\prog\visualised_sorting\dataset.cpp
+=======
+	<SFML/Graphics.hpp>
+	<unistd.h>
+	<atomic>
+
+1604484954 source:c:\skole arbejde\sop\prog\visualised_sorting\dataset.cpp
+>>>>>>> Stashed changes
 	"dataset.h"
 	<bitset>
 
