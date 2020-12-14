@@ -1,6 +1,7 @@
 #include "dataset.h"
 #include <math.h>
 #include <bitset>
+#include <thread>
 
 dataset::dataset(){
 
@@ -126,80 +127,103 @@ rectangleObj::rectangleObj(int width, int height, Color color, int x, int y){
     this->y = y;
 }
 
-rectangleObj::bubbleSort(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec){
+void bubbleSort(vector<rectangleObj*>& unsortedList, atomic<bool>& accessGate, atomic<bool>& looper){
     int var1 = 0;
     int var2 = 0;
 
     bool checker = false;
     bool bonk = true;
-    Clock clock;
 
     //Runs the loop until no changes are made to the array
     while(bonk){
         //Loops through the array
         for(int n = 0; (n+1) < unsortedList.size(); n++){
-            //unsortedList[n]->color = Color::Red;
-            //unsortedList[n+1]->color = Color::Red;
+            if(accessGate){
+                if(n > 0){
+                    unsortedList[n-1]->color = Color::White;
+                }
+                unsortedList[unsortedList.size()-1]->color = Color::White;
+                unsortedList[unsortedList.size()-2]->color = Color::White;
+                unsortedList[n]->color = Color::Red;
+                unsortedList[n+1]->color = Color::Red;
 
-            //Draws the sorting in a window
-            animate(unsortedList, window, rec);
+                //Checks if 1 element is larger than the next one
+                if(unsortedList[n]->height > unsortedList[n+1]->height){
+                    //Flips the elements
+                    var1 = unsortedList[n+1]->height;
+                    var2 = unsortedList[n+1]->y;
 
-            //unsortedList[n]->color = Color::White;
+                    unsortedList[n+1]->height = unsortedList[n]->height;
+                    unsortedList[n+1]->y = unsortedList[n]->y;
 
-            //Half a second delay
-            while(clock.getElapsedTime().asSeconds() < 0.5f){
+                    unsortedList[n]->height = var1;
+                    unsortedList[n]->y = var2;
 
-            }
+                    checker = true;
+                }
 
+                //If element 1 is smaller than or equal to element 2 it continues the loop
+                else if(unsortedList[n]->height <= unsortedList[n+1]->height){
 
-            //Checks if 1 element is larger than the next one
-            if(unsortedList[n]->height > unsortedList[n+1]->height){
-                //Flips the elements
-                var1 = unsortedList[n+1]->height;
-                var2 = unsortedList[n+1]->y;
-
-                unsortedList[n+1]->height = unsortedList[n]->height;
-                unsortedList[n+1]->y = unsortedList[n]->y;
-
-                unsortedList[n]->height = var1;
-                unsortedList[n]->y = var2;
-
-                checker = true;
-            }
-
-            //If element 1 is smaller than or equal to element 2 it continues the loop
-            else if(unsortedList[n]->height <= unsortedList[n+1]->height){
-                continue;
+                }
+                else{
+                    throw runtime_error("Runtime error: Bubble sort failed");
+                }
             }
             else{
-                throw runtime_error("Runtime error: Bubble sort failed");
+                n--;
             }
-            clock.restart();
+            accessGate = false;
         }
         //If we haven't changed the list, it exits the loop
         if(!checker){
+            while(!accessGate){}
+            for(int n = 0; n < unsortedList.size(); n++){
+                unsortedList[n]->color = Color::Green;
+            }
+            accessGate = false;
             bonk = false;
+            looper = false;
         }
         checker = false;
     }
-    animate(unsortedList, window, rec);
 }
 
 rectangleObj::rectangleObj(){
 
 }
 
-rectangleObj::animate(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec){
-    window.clear();
+rectangleObj::animate(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec, atomic<bool>& accessGate, atomic<bool>& looper){
+    thread sorting(bubbleSort, ref(unsortedList), ref(accessGate), ref(looper));
 
-    //Draws a square for each element
+
+    vector<rectangleObj*> copyList = {};
     for(int n = 0; n < unsortedList.size(); n++){
-        //cout << "Height: " << unsortedList[n]->height << "\t" << "X: " << unsortedList[n]->x << "\t" << "Y: " << unsortedList[n]->y << endl;;
-        rec.setPosition(unsortedList[n]->x, unsortedList[n]->y);
-        rec.setSize(Vector2f(unsortedList[n]->width, unsortedList[n]->height));
-        rec.setFillColor(unsortedList[n]->color);
-        window.draw(rec);
+        rectangleObj *recCopy = new rectangleObj(unsortedList[n]->width, unsortedList[n]->height, unsortedList[n]->color, unsortedList[n]->x, unsortedList[n]->y);
+        copyList.push_back(recCopy);
     }
-    window.display();
-    //cout << "\n" << "\n" << endl;
+
+
+    while(looper){
+        window.clear();
+        if(!accessGate){
+            for(int n = 0; n < unsortedList.size(); n++){
+                copyList[n] = unsortedList[n];
+                accessGate = true;
+            }
+        }
+        for(int i = 0; i < copyList.size(); i++){
+            rec.setPosition(copyList[i]->x, copyList[i]->y);
+            rec.setSize(Vector2f(copyList[i]->width, copyList[i]->height));
+            rec.setFillColor(copyList[i]->color);
+            window.draw(rec);
+        }
+        window.display();
+    }
+    cout << "Complete" << endl;
+    sorting.join();
+    for(int n = copyList.size(); n > 0; n--){
+        delete copyList[n];
+        delete unsortedList[n];
+    }
 }

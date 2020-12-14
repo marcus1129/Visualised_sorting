@@ -1,11 +1,19 @@
 #include "dataset.h"
 #include <cstring>
+#include <iostream>
+#include <functional>
+#include "speed.h"
 
+using namespace std;
 
-RenderWindow window(VideoMode(800,600), "Visualized sorting"/*, Style::Fullscreen*/);
 Event event;
-string stringInput = "2 8 3 32 12 5 21 4";
+speed test_obj;
+Text text;
+sf::Clock clock1;
+string stringInput = "2 8 3 32 12 5 21 4 213 32 2 523 2 123 52 423 129 48 236 27 378 26 135 237 5 43 21";
+string testStringInput;
 vector<long int> inputList = {};
+vector<long int> testInputList = {};
 vector<long int> sortedList = {};
 
 
@@ -15,36 +23,48 @@ int spacingWidth = 5;
 int main()
 {
     try{
+        for(int n = 1; n < 10/*23644*/; n++){
+            testStringInput += to_string(n%4+1);
+            testStringInput += " ";
+        }
+        testStringInput += to_string(5);
+        atomic<bool> looper{true};
+        atomic<bool> accessGate{true};
+        RenderWindow window(VideoMode(400,600), "Visualized sorting"/*, Style::Fullscreen*/);
+        window.setFramerateLimit(120);
         while(window.isOpen()){
             while (window.pollEvent(event)){
                 if (event.type == Event::Closed){
                     window.close();
                 }
                 else{
-                    /*cout << "Please enter any amount of integer seperated by a space" << endl;
-                    //Get an input from the user
-                    getline(cin, stringInput);*/
 
                     //Converts the input to a char
                     char input[stringInput.size()] = "";
                     for(int i = 0; i < sizeof(input); i++) {
                         input[i] = stringInput[i];
                     }
+                    char testInput[testStringInput.size()] = "";
+                    for(int i = 0; i < sizeof(testInput); i++) {
+                        testInput[i] = testStringInput[i];
+                    }
 
                     dataset *obj = new dataset();
 
                     //Creates a vector for the data points to be kept in
                     vector<dataset*> points = {};
-
+                    vector<dataset*> testPoints = {};
 
                     vector<rectangleObj*> rectangleList = {};
+                    vector<rectangleObj*> testRectangleList = {};
 
 
                     //Splits the input in to individual indexes
                     inputList = obj->splitInput(input);
+                    testInputList = obj->splitInput(testInput);
 
-                    //Sorts the list according to the bubblesort algorithm
                     obj->setPoints(inputList, points, spacingWidth, window);
+                    obj->setPoints(testInputList, testPoints, spacingWidth, window);
 
                     //Creates a rectangle
                     RectangleShape rec;
@@ -55,9 +75,36 @@ int main()
                         rectangleList.push_back(rect);
                     }
 
+
+                    for(int n = 0; n < testPoints.size(); n++){
+                        rectangleObj *testRect = new rectangleObj(testPoints[n]->width, testPoints[n]->height, Color::White, testPoints[n]->x, testPoints[n]->y);
+                        testRectangleList.push_back(testRect);
+                    }
+
+
+
                     //Sorts the array
+                    clock1.restart();
+                    test_obj.bubble_test(testRectangleList);
+                    cout << "Bubble sort took " << clock1.getElapsedTime().asMicroseconds() << " microseconds to sort " << testRectangleList.size() << " elements" << endl;
+
+
                     rectangleObj *obj1 = new rectangleObj();
-                    obj1->bubbleSort(rectangleList, window, rec);
+                    obj1->animate(rectangleList, window, rec, accessGate, looper);
+
+                    text.setString("Success");
+                    text.setCharacterSize(30);
+                    text.setFillColor(Color::Green);
+                    window.draw(text);
+                    window.clear();
+                    while(!GetKeyState(32) & 0x8000){
+                        window.display();
+                    }
+                    for(int n = rectangleList.size(); n > 0; n--){
+                        delete rectangleList[n];
+                    }
+                    delete obj1;
+                    delete obj;
                 }
             }
         }

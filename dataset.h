@@ -7,6 +7,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <unistd.h>
+#include <atomic>
 
 using namespace sf;
 using namespace std;
@@ -32,12 +33,18 @@ class rectangleObj{
     public:
         rectangleObj();
         rectangleObj(int width, int height, Color color, int x, int y);
-        bubbleSort(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec);
         Color color = Color::White;
         int width, height, x, y = 0;
-
-    private:
-        animate(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec);
+        animate(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec, atomic<bool>& accessGate, atomic<bool>& Looper);
 };
+
+void bubbleSort(vector<rectangleObj*>& unsortedList, atomic<bool>& accessGate, atomic<bool>& looper);
+
+
+
+
+
+
+
 
 #endif // DATASET_H
