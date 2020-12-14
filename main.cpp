@@ -23,7 +23,7 @@ int spacingWidth = 5;
 int main()
 {
     try{
-        for(int n = 1; n < 10/*23644*/; n++){
+        for(int n = 1; n < 3643; n++){
             testStringInput += to_string(n%4+1);
             testStringInput += " ";
         }
@@ -31,7 +31,7 @@ int main()
         atomic<bool> looper{true};
         atomic<bool> accessGate{true};
         RenderWindow window(VideoMode(400,600), "Visualized sorting"/*, Style::Fullscreen*/);
-        window.setFramerateLimit(120);
+        window.setFramerateLimit(60);
         while(window.isOpen()){
             while (window.pollEvent(event)){
                 if (event.type == Event::Closed){
@@ -86,7 +86,7 @@ int main()
                     //Sorts the array
                     clock1.restart();
                     test_obj.bubble_test(testRectangleList);
-                    cout << "Bubble sort took " << clock1.getElapsedTime().asMicroseconds() << " microseconds to sort " << testRectangleList.size() << " elements" << endl;
+                    cout << "Bubble sort took " << clock1.getElapsedTime().asMilliseconds() << " milliseconds to sort " << testRectangleList.size() << " elements" << endl;
 
 
                     rectangleObj *obj1 = new rectangleObj();
