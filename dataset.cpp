@@ -193,11 +193,15 @@ rectangleObj::rectangleObj(){
 
 }
 
+void mergeS(vector<rectangleObj*>& unsortedList, atomic<bool>& accessGate, atomic<bool>& looper){
+    mergeSort *mergeObj = new mergeSort(unsortedList, accessGate, looper);
+}
+
 rectangleObj::animate(vector<rectangleObj*>& unsortedList, RenderWindow& window, RectangleShape& rec, atomic<bool>& accessGate, atomic<bool>& looper){
-    thread sorting(bubbleSort, ref(unsortedList), ref(accessGate), ref(looper));
+    thread sorting(mergeS, ref(unsortedList), ref(accessGate), ref(looper));
 
 
-    vector<rectangleObj*> copyList = {};
+    /*vector<rectangleObj*> copyList = {};
     for(int n = 0; n < unsortedList.size(); n++){
         rectangleObj *recCopy = new rectangleObj(unsortedList[n]->width, unsortedList[n]->height, unsortedList[n]->color, unsortedList[n]->x, unsortedList[n]->y);
         copyList.push_back(recCopy);
@@ -225,5 +229,176 @@ rectangleObj::animate(vector<rectangleObj*>& unsortedList, RenderWindow& window,
     for(int n = copyList.size(); n > 0; n--){
         delete copyList[n];
         delete unsortedList[n];
+    }*/
+
+    Text text;
+    text.setString("Success");
+    text.setCharacterSize(30);
+    text.setFillColor(Color::Green);
+    window.draw(text);
+    while(1){
+        window.display();
     }
 }
+
+
+mergeSort::mergeSort(){
+
+}
+
+mergeSort::mergeSort(int height, int yVal){
+    this->height = height;
+    this->yVal = yVal;
+}
+
+
+vector<int> Sort(vector<int> temp1, vector<int> temp2){
+    vector<int> sorted{};
+
+    for(int n = 0; n < temp1.size(); n++){
+        for(int i = 0; i < temp2.size(); i++){
+            if(temp1[n] < temp2[i]){
+                sorted.push_back(temp1[n]);
+                if(temp1.size() == 1){
+                    sorted.insert(end(sorted), begin(temp2), end(temp2));
+                    temp2.erase(begin(temp2), end(temp2));
+                }
+                else{
+                    temp1.erase(begin(temp1)+n);
+                }
+            }
+
+
+            else if(temp1[n] > temp2[i]){
+                sorted.push_back(temp2[i]);
+                if(temp2.size() == 1){
+                    sorted.insert(end(sorted), begin(temp1), end(temp1));
+                    temp1.erase(begin(temp1), end(temp1));
+                }
+                else{
+                    temp2.erase(begin(temp2)+i);
+                    i--;
+                }
+            }
+
+            else if(temp1[n] == temp2[i]){
+                sorted.push_back(temp1[n]);
+                sorted.push_back(temp2[i]);
+
+                temp1.erase(begin(temp1)+n);
+                temp2.erase(begin(temp2)+i);
+
+                i--;
+            }
+        }
+
+    }
+
+    return sorted;
+}
+
+
+vector<int> split(vector<int> temp1, vector<int> temp2){
+    vector<int> newArr1{};
+    vector<int> newArr2{};
+    vector<int> newArr3{};
+    vector<int> newArr4{};
+
+    vector<int> toSort1{};
+    vector<int> toSort2{};
+    vector<int> toSort3{};
+    vector<int> toSort4{};
+
+    vector<int> sorted{};
+
+    for(int n = 0; n < temp1.size(); n++){
+        if(n < temp1.size()/2){
+            newArr1.push_back(temp1[n]);
+        }
+        if(n >= temp1.size()/2){
+            newArr2.push_back(temp1[n]);
+        }
+    }
+
+    for(int n = 0; n < temp2.size(); n++){
+        if(n < temp2.size()/2){
+            newArr3.push_back(temp2[n]);
+        }
+        if(n >= temp2.size()/2){
+            newArr4.push_back(temp2[n]);
+        }
+    }
+
+    if(newArr1.size() > 1 && newArr2.size() > 1){
+        toSort1 = split(newArr1, newArr2);
+    }
+    if(newArr3.size() > 1 && newArr4.size() > 1){
+        toSort2 = split(newArr3, newArr4);
+    }
+
+    if(newArr1.size() == 1 && newArr2.size() == 1){
+        if(newArr1[0] < newArr2[0]){
+
+            toSort1.push_back(newArr1[0]);
+            toSort1.push_back(newArr2[0]);
+        }
+
+        else if(newArr1[0] >= newArr2[0]){
+            toSort1.push_back(newArr2[0]);
+            toSort1.push_back(newArr1[0]);
+        }
+    }
+
+    if(newArr3.size() == 1 && newArr4.size() == 1){
+        if(newArr3[0] < newArr4[0]){
+            toSort2.push_back(newArr3[0]);
+            toSort2.push_back(newArr4[0]);
+        }
+
+        else if(newArr3[0] >= newArr4[0]){
+            toSort2.push_back(newArr3[0]);
+            toSort2.push_back(newArr4[0]);
+        }
+    }
+    sorted = Sort(toSort1, toSort2);
+
+    return sorted;
+
+
+
+}
+
+
+mergeSort::mergeSort(vector<rectangleObj*>& unsortedList, atomic<bool>& accessGate, atomic<bool>& looper){
+    bool bonk = true;
+
+    vector<int> temp1{};
+    vector<int> temp2{};
+    vector<int> sortedArr{};
+
+
+    if(accessGate){
+        for(int n = 0; n < unsortedList.size(); n++){
+            if(n < unsortedList.size()/2){
+                temp1.push_back(unsortedList[n]->height);
+            }
+            else if(n >= unsortedList.size()/2){
+                temp2.push_back(unsortedList[n]->height);
+            }
+        }
+    accessGate = false;
+    }
+
+    sortedArr = split(temp1, temp2);
+    for(int n = 0; n < sortedArr.size(); n++){
+        cout << sortedArr[n] << endl;
+    }
+
+
+    /*while(!accessGate){}
+    int layer = log2(unsortedList.size());
+    int layerSize = unsortedList.size()/pow(2,layer);*/
+
+
+}
+

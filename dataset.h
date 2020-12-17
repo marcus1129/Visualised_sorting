@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <unistd.h>
 #include <atomic>
+#include <math.h>
 
 using namespace sf;
 using namespace std;
@@ -40,6 +41,16 @@ class rectangleObj{
 
 void bubbleSort(vector<rectangleObj*>& unsortedList, atomic<bool>& accessGate, atomic<bool>& looper);
 
+
+
+class mergeSort{
+    public:
+        mergeSort();
+        mergeSort(int height, int yVal);
+        mergeSort(vector<rectangleObj*>& unsortedList, atomic<bool>& accessGate, atomic<bool>& looper);
+
+        int height, yVal = 0;
+};
 
 
 

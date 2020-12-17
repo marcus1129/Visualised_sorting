@@ -10,7 +10,7 @@ Event event;
 speed test_obj;
 Text text;
 sf::Clock clock1;
-string stringInput = "2 8 3 32 12 5 21 4 213 32 2 523 2 123 52 423 129 48 236 27 378 26 135 237 5 43 21";
+string stringInput = "2 3 7 4 9 12 5 3" /*"2 8 3 32 12 5 21 4 213 32 2 523 2 123 52 423 129 48 236 27 378 26 135 237 5 43 21"*/;
 string testStringInput;
 vector<long int> inputList = {};
 vector<long int> testInputList = {};
@@ -18,20 +18,26 @@ vector<long int> sortedList = {};
 
 
 //The distance between data points, in pixels
-int spacingWidth = 5;
+int spacingWidth = 1;
 
 int main()
 {
     try{
-        for(int n = 1; n < 3643; n++){
+        for(int n = 1; n < 13643; n++){
             testStringInput += to_string(n%4+1);
             testStringInput += " ";
         }
-        testStringInput += to_string(5);
+        /*for(int n = 1; n < 300; n++){
+            stringInput += to_string(n%4+1);
+            stringInput += " ";
+        }*/
+        testStringInput += to_string(4);
+        stringInput += to_string(4);
+
         atomic<bool> looper{true};
         atomic<bool> accessGate{true};
-        RenderWindow window(VideoMode(400,600), "Visualized sorting"/*, Style::Fullscreen*/);
-        window.setFramerateLimit(60);
+        RenderWindow window(VideoMode(1000,600), "Visualized sorting"/*, Style::Fullscreen*/);
+        //window.setFramerateLimit(60);
         while(window.isOpen()){
             while (window.pollEvent(event)){
                 if (event.type == Event::Closed){
